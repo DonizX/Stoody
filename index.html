@@ -13,7 +13,7 @@
 <style>
 body {
     font-family: 'Lexend', sans-serif;
-    background-color: #ffffff;
+    background-color: #fff3f8;
     color: #45223f;
 }
 
@@ -43,7 +43,6 @@ body {
 <nav class="w-full px-8 py-4 flex justify-between items-center fixed top-0 z-50 glass-card">
 
     <div class="flex items-center gap-2">
-        <!-- LOGO AJUSTADA -->
         <img src="assets/logo.png" alt="STOODY Logo" class="h-[120px] object-contain hover:scale-105 transition">
     </div>
 
@@ -79,10 +78,29 @@ body {
     <input class="w-full p-4 border rounded-lg mt-2" placeholder="name@example.com" type="email"/>
 </div>
 
-<div>
+<!-- PASSWORD COM FUNÇÃO -->
+<div class="relative">
     <label>Password</label>
-    <input class="w-full p-4 border rounded-lg mt-2" placeholder="••••••••" type="password"/>
-    <div class="text-right">
+    
+    <input 
+        id="password"
+        class="w-full p-4 border rounded-lg mt-2 pr-12"
+        placeholder="••••••••"
+        type="password"
+    />
+
+    <!-- BOTÃO OLHO -->
+    <button 
+        type="button"
+        id="togglePassword"
+        class="absolute right-4 top-[55%] text-gray-500 hover:text-purple-600"
+    >
+        <span id="eyeIcon" class="material-symbols-outlined">
+            visibility
+        </span>
+    </button>
+
+    <div class="text-right mt-1">
         <a class="text-purple-600 text-sm" href="#">Forgot password?</a>
     </div>
 </div>
@@ -120,6 +138,23 @@ body {
 
 </div>
 </footer>
+
+<!-- SCRIPT FUNCIONAL -->
+<script>
+const passwordInput = document.getElementById("password");
+const toggleButton = document.getElementById("togglePassword");
+const eyeIcon = document.getElementById("eyeIcon");
+
+toggleButton.addEventListener("click", () => {
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeIcon.textContent = "visibility_off";
+    } else {
+        passwordInput.type = "password";
+        eyeIcon.textContent = "visibility";
+    }
+});
+</script>
 
 </body>
 </html>
