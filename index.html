@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<!-- SEO -->
+<meta name="description" content="Plataforma de aprendizado de idiomas STOODY">
+<meta name="keywords" content="idiomas, inglês, estudo, aprendizado">
+<meta name="author" content="Pablo Henrique">
+
 <title>Log In | STOODY Language Learning</title>
 
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -13,8 +19,28 @@
 <style>
 body {
     font-family: 'Lexend', sans-serif;
-    background-color: #fff3f8;
     color: #45223f;
+    overflow-x: hidden;
+}
+
+/* FUNDO ANIMADO (CORRIGIDO) */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: url('assets/background.png') repeat-x;
+    background-size: auto 100%;
+    animation: moverFundo 30s linear infinite;
+    z-index: -1;
+    opacity: 0.15;
+}
+
+@keyframes moverFundo {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
 }
 
 .glass-card {
@@ -41,7 +67,6 @@ body {
 
 <!-- NAVBAR -->
 <nav class="w-full px-8 py-4 flex justify-between items-center fixed top-0 z-50 glass-card">
-
     <div class="flex items-center gap-2">
         <img src="assets/logo.png" alt="STOODY Logo" class="h-[120px] object-contain hover:scale-105 transition">
     </div>
@@ -56,7 +81,6 @@ body {
             Sign Up
         </button>
     </div>
-
 </nav>
 
 <!-- MAIN -->
@@ -71,14 +95,14 @@ body {
     <p class="text-gray-500">Continue your linguistic journey</p>
 </div>
 
-<form class="space-y-6">
+<form id="loginForm" class="space-y-6">
 
 <div>
     <label>Email Address</label>
-    <input class="w-full p-4 border rounded-lg mt-2" placeholder="name@example.com" type="email"/>
+    <input id="email" class="w-full p-4 border rounded-lg mt-2" placeholder="name@example.com" type="email"/>
+    <p id="emailError" class="text-red-500 text-sm mt-1 hidden">Email inválido</p>
 </div>
 
-<!-- PASSWORD COM FUNÇÃO -->
 <div class="relative">
     <label>Password</label>
     
@@ -89,7 +113,6 @@ body {
         type="password"
     />
 
-    <!-- BOTÃO OLHO -->
     <button 
         type="button"
         id="togglePassword"
@@ -100,10 +123,16 @@ body {
         </span>
     </button>
 
+    <p id="passwordError" class="text-red-500 text-sm mt-1 hidden">Senha obrigatória</p>
+
     <div class="text-right mt-1">
         <a class="text-purple-600 text-sm" href="#">Forgot password?</a>
     </div>
 </div>
+
+<p id="successMessage" class="text-green-600 text-center hidden">
+    Login realizado com sucesso!
+</p>
 
 <button class="w-full primary-gradient text-white py-4 rounded-full font-bold">
     Log In
@@ -124,8 +153,8 @@ body {
 
 </main>
 
-<!-- FOOTER -->
-<footer class="w-full py-8 px-8 border-t">
+<!-- FOOTER CORRIGIDO -->
+<footer class="w-full py-8 px-8 border-t bg-white">
 <div class="flex justify-between items-center">
 
 <p class="text-sm text-gray-500">© 2024 STOODY</p>
@@ -139,8 +168,9 @@ body {
 </div>
 </footer>
 
-<!-- SCRIPT FUNCIONAL -->
+<!-- SCRIPT -->
 <script>
+// Mostrar senha
 const passwordInput = document.getElementById("password");
 const toggleButton = document.getElementById("togglePassword");
 const eyeIcon = document.getElementById("eyeIcon");
@@ -152,6 +182,40 @@ toggleButton.addEventListener("click", () => {
     } else {
         passwordInput.type = "password";
         eyeIcon.textContent = "visibility";
+    }
+});
+
+// Validação
+const form = document.getElementById("loginForm");
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+    const successMessage = document.getElementById("successMessage");
+
+    let valid = true;
+
+    emailError.classList.add("hidden");
+    passwordError.classList.add("hidden");
+    successMessage.classList.add("hidden");
+
+    if (!email.value.includes("@")) {
+        emailError.classList.remove("hidden");
+        valid = false;
+    }
+
+    if (password.value.trim() === "") {
+        passwordError.classList.remove("hidden");
+        valid = false;
+    }
+
+    if (valid) {
+        successMessage.classList.remove("hidden");
     }
 });
 </script>
