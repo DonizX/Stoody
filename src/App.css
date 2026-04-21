@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes scrollLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.bg-loop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  animation: scrollLeft 30s linear infinite;
+  opacity: 0.12;
+  z-index: -1;
+}
+
