@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import QuestionCard from './QuestionCard';
+import React, { useState } from "react";
+import QuestionCard from "./QuestionCard";
 
 export default function Quiz({
   questions,
@@ -14,20 +14,26 @@ export default function Quiz({
 
   const currentQuestion = questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
-  const allAnswered = answeredQuestions.size === questions.length;
 
   const handleAnswer = (isCorrect) => {
+    // Marca como respondida
     setAnsweredQuestions((prev) => new Set([...prev, currentQuestionIndex]));
 
-    if (isCorrect) {
-      setTotalXp((prev) => prev + xpPerQuestion);
-      setTotalCoins((prev) => prev + coinsPerQuestion);
-    }
+    // Calcula novos valores (evita bug de estado assíncrono)
+    const xpGanho = isCorrect ? xpPerQuestion : 0;
+    const coinsGanho = isCorrect ? coinsPerQuestion : 0;
 
-    // Avança para próxima pergunta ou finaliza
+    const newXp = totalXp + xpGanho;
+    const newCoins = totalCoins + coinsGanho;
+
+    // Atualiza estado
+    setTotalXp(newXp);
+    setTotalCoins(newCoins);
+
+    // Avança ou finaliza
     setTimeout(() => {
       if (isLastQuestion) {
-        onFinish(totalXp + (isCorrect ? xpPerQuestion : 0), totalCoins + (isCorrect ? coinsPerQuestion : 0));
+        onFinish(newXp, newCoins);
       } else {
         setCurrentQuestionIndex((prev) => prev + 1);
       }
@@ -36,7 +42,7 @@ export default function Quiz({
 
   return (
     <div className="w-full">
-      {/* Header com XP e Coins */}
+      {/* HEADER */}
       <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-4">
           {/* XP */}
@@ -44,25 +50,29 @@ export default function Quiz({
             <span className="inline-flex items-center justify-center w-6 h-6 bg-purple-100 rounded-full">
               <span className="text-xs font-bold text-purple-600">✨</span>
             </span>
-            <span className="text-sm font-semibold text-gray-900">{totalXp}</span>
+            <span className="text-sm font-semibold text-gray-900">
+              {totalXp}
+            </span>
           </div>
 
-          {/* Coins */}
+          {/* COINS */}
           <div className="flex items-center gap-1">
             <span className="inline-flex items-center justify-center w-6 h-6 bg-yellow-100 rounded-full">
               <span className="text-xs font-bold">💰</span>
             </span>
-            <span className="text-sm font-semibold text-gray-900">{totalCoins}</span>
+            <span className="text-sm font-semibold text-gray-900">
+              {totalCoins}
+            </span>
           </div>
         </div>
 
-        {/* Contador de questões */}
+        {/* PROGRESSO */}
         <div className="text-xs font-semibold text-gray-600">
           {currentQuestionIndex + 1}/{questions.length}
         </div>
       </div>
 
-      {/* Pergunta */}
+      {/* PERGUNTA */}
       <div>
         <QuestionCard
           questionNumber={currentQuestionIndex + 1}

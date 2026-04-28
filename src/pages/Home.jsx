@@ -6,7 +6,7 @@ import CourseCard from "../components/CourseCard.jsx";
 
 function Home() {
   const navigate = useNavigate();
-  const { search, setSearch } = useGame();
+  const { search } = useGame();
 
   const courses = [
     { 
