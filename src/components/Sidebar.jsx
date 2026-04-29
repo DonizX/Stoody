@@ -14,89 +14,148 @@ function Sidebar() {
   }
 
   return (
-    <aside
-      className={`fixed left-0 top-0 h-screen bg-white shadow-2xl border-r border-gray-200 flex flex-col z-50 transition-all duration-300 ${
-        isCollapsed ? "w-20" : "w-64"
-      }`}
-      style={{ paddingTop: "1.5rem" }}
-    >
-      {/* Logo */}
-      <div className="mb-10 flex justify-center px-4">
-        {!isCollapsed ? (
-          <img
-            src={logo}
-            alt="Stoody"
-            className="h-20 object-contain cursor-pointer hover:opacity-80 transition"
-            onClick={() => navigate("/home")}
-          />
-        ) : (
-          <div
-            className="h-12 w-12 bg-gradient-to-br from-purple-600 to-pink-500 rounded-lg flex items-center justify-center cursor-pointer hover:opacity-80 transition"
-            onClick={() => navigate("/home")}
-            title="Stoody"
-          >
-            <span className="text-white font-bold text-xl">S</span>
-          </div>
-        )}
-      </div>
+    <>
+      {/* Desktop Sidebar */}
+      <aside
+        className={`hidden md:flex fixed left-0 top-0 h-screen bg-white shadow-2xl border-r border-gray-200 flex-col z-40 transition-all duration-300 ${
+          isCollapsed ? "w-20" : "w-64"
+        }`}
+        style={{ paddingTop: "1.5rem" }}
+      >
+        {/* Logo */}
+        <div className="mb-10 flex justify-center px-4">
+          {!isCollapsed ? (
+            <img
+              src={logo}
+              alt="Stoody"
+              className="h-20 object-contain cursor-pointer hover:opacity-80 transition"
+              onClick={() => navigate("/home")}
+            />
+          ) : (
+            <div
+              className="h-12 w-12 bg-gradient-to-br from-purple-600 to-pink-500 rounded-lg flex items-center justify-center cursor-pointer hover:opacity-80 transition"
+              onClick={() => navigate("/home")}
+              title="Stoody"
+            >
+              <span className="text-white font-bold text-xl">S</span>
+            </div>
+          )}
+        </div>
 
-      {/* Navigation */}
-      <nav className="flex flex-col gap-3 flex-1 px-2">
+        {/* Navigation */}
+        <nav className="flex flex-col gap-3 flex-1 px-2 overflow-y-auto">
+          <button
+            onClick={() => navigate("/home")}
+            className="text-left px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-purple-50 hover:text-purple-600 transition flex items-center gap-3 whitespace-nowrap"
+            title={isCollapsed ? "Courses" : ""}
+          >
+            <span className="text-xl flex-shrink-0">📚</span>
+            {!isCollapsed && <span>Courses</span>}
+          </button>
+
+          <button
+            className="text-left px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-purple-50 hover:text-purple-600 transition flex items-center gap-3 whitespace-nowrap"
+            title={isCollapsed ? "Shop" : ""}
+          >
+            <span className="text-xl flex-shrink-0">🛒</span>
+            {!isCollapsed && <span>Shop</span>}
+          </button>
+
+          <button
+            className="text-left px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-purple-50 hover:text-purple-600 transition flex items-center gap-3 whitespace-nowrap"
+            title={isCollapsed ? "Profile" : ""}
+          >
+            <span className="text-xl flex-shrink-0">👤</span>
+            {!isCollapsed && <span>Profile</span>}
+          </button>
+
+          <button
+            className="text-left px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-purple-50 hover:text-purple-600 transition flex items-center gap-3 whitespace-nowrap"
+            title={isCollapsed ? "Leaderboard" : ""}
+          >
+            <span className="text-xl flex-shrink-0">🏆</span>
+            {!isCollapsed && <span>Leaderboard</span>}
+          </button>
+        </nav>
+
+        {/* About Us Button */}
+        <button
+          onClick={() => navigate("/about")}
+          className="text-left px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-purple-50 hover:text-purple-600 transition flex items-center gap-3 whitespace-nowrap"
+          title={isCollapsed ? "About" : ""}
+        >
+          <span className="text-xl flex-shrink-0">ℹ️</span>
+          {!isCollapsed && <span>About Us</span>}
+        </button>
+
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          className="text-left px-4 py-3 rounded-lg text-red-600 font-medium hover:bg-red-50 transition flex items-center gap-3 whitespace-nowrap mx-2 mb-4"
+          title={isCollapsed ? "Logout" : ""}
+        >
+          <span className="text-xl flex-shrink-0">🚪</span>
+          {!isCollapsed && <span>Logout</span>}
+        </button>
+
+        {/* Toggle Button */}
+        <button
+          onClick={toggleSidebar}
+          className="flex items-center justify-center px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-gray-100 transition border-t border-gray-200 mx-2 mb-2"
+          title={isCollapsed ? "Expandir" : "Minimizar"}
+        >
+          <span className="text-lg">
+            {isCollapsed ? "→" : "←"}
+          </span>
+        </button>
+      </aside>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-2xl border-t border-gray-200 flex justify-around items-center z-40 h-16">
         <button
           onClick={() => navigate("/home")}
-          className="text-left px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-purple-50 hover:text-purple-600 transition flex items-center gap-3 whitespace-nowrap"
-          title={isCollapsed ? "Courses" : ""}
+          className="flex flex-col items-center justify-center flex-1 h-full text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition py-2"
+          title="Courses"
         >
-          <span className="text-xl flex-shrink-0">📚</span>
-          {!isCollapsed && <span>Courses</span>}
+          <span className="text-2xl">📚</span>
+          <span className="text-xs mt-1">Courses</span>
         </button>
 
         <button
-          className="text-left px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-purple-50 hover:text-purple-600 transition flex items-center gap-3 whitespace-nowrap"
-          title={isCollapsed ? "Shop" : ""}
+          className="flex flex-col items-center justify-center flex-1 h-full text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition py-2"
+          title="Shop"
         >
-          <span className="text-xl flex-shrink-0">🛒</span>
-          {!isCollapsed && <span>Shop</span>}
+          <span className="text-2xl">🛒</span>
+          <span className="text-xs mt-1">Shop</span>
         </button>
 
         <button
-          className="text-left px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-purple-50 hover:text-purple-600 transition flex items-center gap-3 whitespace-nowrap"
-          title={isCollapsed ? "Profile" : ""}
+          className="flex flex-col items-center justify-center flex-1 h-full text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition py-2"
+          title="Profile"
         >
-          <span className="text-xl flex-shrink-0">👤</span>
-          {!isCollapsed && <span>Profile</span>}
+          <span className="text-2xl">👤</span>
+          <span className="text-xs mt-1">Profile</span>
         </button>
 
         <button
-          className="text-left px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-purple-50 hover:text-purple-600 transition flex items-center gap-3 whitespace-nowrap"
-          title={isCollapsed ? "Leaderboard" : ""}
+          onClick={() => navigate("/about")}
+          className="flex flex-col items-center justify-center flex-1 h-full text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition py-2"
+          title="About"
         >
-          <span className="text-xl flex-shrink-0">🏆</span>
-          {!isCollapsed && <span>Leaderboard</span>}
+          <span className="text-2xl">ℹ️</span>
+          <span className="text-xs mt-1">About</span>
+        </button>
+
+        <button
+          onClick={handleLogout}
+          className="flex flex-col items-center justify-center flex-1 h-full text-red-600 hover:text-red-700 hover:bg-red-50 transition py-2"
+          title="Logout"
+        >
+          <span className="text-2xl">🚪</span>
+          <span className="text-xs mt-1">Exit</span>
         </button>
       </nav>
-
-      {/* Logout Button */}
-      <button
-        onClick={handleLogout}
-        className="text-left px-4 py-3 rounded-lg text-red-600 font-medium hover:bg-red-50 transition flex items-center gap-3 whitespace-nowrap mx-2 mb-4"
-        title={isCollapsed ? "Logout" : ""}
-      >
-        <span className="text-xl flex-shrink-0">🚪</span>
-        {!isCollapsed && <span>Logout</span>}
-      </button>
-
-      {/* Toggle Button */}
-      <button
-        onClick={toggleSidebar}
-        className="flex items-center justify-center px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-gray-100 transition border-t border-gray-200 mx-2 mb-2"
-        title={isCollapsed ? "Expandir" : "Minimizar"}
-      >
-        <span className="text-lg">
-          {isCollapsed ? "→" : "←"}
-        </span>
-      </button>
-    </aside>
+    </>
   );
 }
 

@@ -14,14 +14,14 @@ export default function CoursePlayer() {
   const { addXP, addCoins, isCourseCompleted, completeCourse } = useGame();
   const { isCollapsed } = useSidebar();
 
-  const marginClass = isCollapsed ? "ml-20" : "ml-64";
+  const marginClass = isCollapsed ? "md:ml-20" : "md:ml-64";
 
   // Dados dos cursos
   const coursesData = {
     'japanese-anime': {
       title: 'Japanese for Anime Fans',
       description: 'Learn essential Japanese expressions used in anime conversations.',
-      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      videoUrl: 'https://www.youtube.com/embed/YuoCJJuEcg4',
       totalXp: 100,
       totalCoins: 50,
       questions: [
@@ -60,7 +60,7 @@ export default function CoursePlayer() {
     'english-pokemon': {
       title: 'Learn English with Pokémon',
       description: 'Practice English vocabulary and grammar with Pokémon characters.',
-      videoUrl: 'https://www.youtube.com/embed/jNQXAC9IVRw',
+      videoUrl: 'https://www.youtube.com/embed/4uO5zv084SA',
       totalXp: 80,
       totalCoins: 40,
       questions: [
@@ -94,7 +94,7 @@ export default function CoursePlayer() {
     'spanish-basics': {
       title: 'Spanish Basics',
       description: 'Master the fundamental Spanish phrases and pronunciation.',
-      videoUrl: 'https://www.youtube.com/embed/aqz-KE-bpKQ',
+      videoUrl: 'https://www.youtube.com/embed/cYI8G02ELSo',
       totalXp: 60,
       totalCoins: 30,
       questions: [
@@ -200,9 +200,9 @@ export default function CoursePlayer() {
   // Estado 1: Quiz já foi completado - mostrar vídeo + mensagem
   if (quizCompleted && !started) {
     return (
-      <div className="flex bg-gray-50 min-h-screen">
+      <div className="flex flex-col md:flex-row bg-gray-50 min-h-screen">
         <Sidebar />
-        <div className={`flex-1 ${marginClass} transition-all duration-300`}>
+        <div className={`flex-1 ${marginClass} transition-all duration-300 flex flex-col pb-20 md:pb-0`}>
           <Navbar />
           <div className="w-full bg-white flex flex-col">
             <VideoSection videoUrl={course.videoUrl} title={course.title} />
@@ -250,9 +250,9 @@ export default function CoursePlayer() {
   // Estado 2: Quiz em progresso
   if (started && !finished) {
     return (
-      <div className="flex bg-gray-50 min-h-screen">
+      <div className="flex flex-col md:flex-row bg-gray-50 min-h-screen">
         <Sidebar />
-        <div className={`flex-1 ${marginClass} transition-all duration-300`}>
+        <div className={`flex-1 ${marginClass} transition-all duration-300 flex flex-col pb-20 md:pb-0`}>
           <Navbar />
           <div className="w-full bg-white">
             <Quiz
@@ -270,9 +270,9 @@ export default function CoursePlayer() {
   // Estado 3: Quiz finalizado - mostrar completion card
   if (finished) {
     return (
-      <div className="flex bg-gray-50 min-h-screen">
+      <div className="flex flex-col md:flex-row bg-gray-50 min-h-screen">
         <Sidebar />
-        <div className={`flex-1 ${marginClass} transition-all duration-300`}>
+        <div className={`flex-1 ${marginClass} transition-all duration-300 flex flex-col pb-20 md:pb-0`}>
           <Navbar />
           <div className="w-full bg-white">
             <CompletionCard
@@ -288,9 +288,9 @@ export default function CoursePlayer() {
 
   // Estado inicial: Antes de começar
   return (
-    <div className="flex bg-gray-50 min-h-screen">
+    <div className="flex flex-col md:flex-row bg-gray-50 min-h-screen">
       <Sidebar />
-      <div className={`flex-1 ${marginClass} transition-all duration-300`}>
+      <div className={`flex-1 ${marginClass} transition-all duration-300 flex flex-col pb-20 md:pb-0`}>
         <Navbar />
         <div className="w-full bg-white">
           <VideoSection videoUrl={course.videoUrl} title={course.title} />

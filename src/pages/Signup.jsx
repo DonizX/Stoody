@@ -2,21 +2,33 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGame } from "../context/GameContext";
 import logo from "../assets/logo-stoody.png";
-import fundo from "../assets/idiomas.png";
 
-function Login() {
+function Signup() {
   const navigate = useNavigate();
-  const { login } = useGame();
+  const { signup } = useGame();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function handleLogin(e) {
+  function handleSignup(e) {
     e.preventDefault();
     setError("");
+
+    // Validações
+    if (!name.trim()) {
+      setError("Por favor, insira seu nome");
+      return;
+    }
+
+    if (name.trim().length < 3) {
+      setError("Nome deve ter pelo menos 3 caracteres");
+      return;
+    }
 
     if (!email.includes("@")) {
       setError("Por favor, insira um email válido");
@@ -28,14 +40,20 @@ function Login() {
       return;
     }
 
-    setLoading(true);
+    if (password !== confirmPassword) {
+      setError("As senhas não conferem");
+      return;
+    }
 
+    setLoading(true);
+    
     // Simular delay de processamento
     setTimeout(() => {
-      const result = login(email.toLowerCase(), password);
+      const result = signup(name.trim(), email.toLowerCase(), password);
       
       if (result.success) {
-        navigate("/home");
+        // Redirecionar para login
+        navigate("/");
       } else {
         setError(result.error);
       }
@@ -45,19 +63,9 @@ function Login() {
   }
 
   return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{
-        backgroundImage: `url(${fundo})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center"
-      }}
-    >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/40" />
-
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-50 to-pink-50">
       {/* NAVBAR */}
-      <nav className="relative z-10 w-full px-4 sm:px-8 py-4 flex justify-between items-center bg-white/80 backdrop-blur-md shadow-md">
+      <nav className="w-full px-4 sm:px-8 py-4 flex justify-between items-center bg-white/80 backdrop-blur-md shadow-md">
         <img 
           src={logo} 
           className="h-12 sm:h-16 object-contain cursor-pointer hover:opacity-80 transition" 
@@ -65,35 +73,27 @@ function Login() {
           onClick={() => navigate("/")}
         />
 
-        <div className="flex gap-2 sm:gap-3 items-center">
-          <button 
-            onClick={() => navigate("/about")}
-            className="border-2 border-purple-600 text-purple-600 px-3 sm:px-6 py-2 rounded-full font-semibold hover:bg-purple-50 transition text-sm sm:text-base"
-          >
-            About Us
-          </button>
-          <button 
-            onClick={() => navigate("/signup")}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 sm:px-6 py-2 rounded-full font-semibold hover:shadow-lg transition-all text-sm sm:text-base"
-          >
-            Sign Up
-          </button>
-        </div>
+        <button 
+          onClick={() => navigate("/")}
+          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 sm:px-6 py-2 rounded-full font-semibold hover:shadow-lg transition-all text-sm sm:text-base"
+        >
+          Login
+        </button>
       </nav>
 
       {/* FORM */}
-      <div className="relative z-10 flex flex-1 items-center justify-center px-4 py-8 sm:py-0">
+      <div className="flex flex-1 items-center justify-center px-4 py-8 sm:py-0">
         <form
-          onSubmit={handleLogin}
+          onSubmit={handleSignup}
           className="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md"
         >
           {/* Cabeçalho */}
           <div className="mb-8 text-center">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-              Welcome Back! 👋
+              Criar Conta 🚀
             </h1>
             <p className="text-sm sm:text-base text-gray-600">
-              Continue sua jornada de aprendizado
+              Comece sua jornada de aprendizado
             </p>
           </div>
 
@@ -103,6 +103,21 @@ function Login() {
               {error}
             </div>
           )}
+
+          {/* Nome */}
+          <div className="mb-4">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Nome Completo
+            </label>
+            <input
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-600 focus:outline-none transition text-base"
+              placeholder="Seu Nome"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              disabled={loading}
+            />
+          </div>
 
           {/* Email */}
           <div className="mb-4">
@@ -119,8 +134,8 @@ function Login() {
             />
           </div>
 
-          {/* Password */}
-          <div className="mb-6">
+          {/* Senha */}
+          <div className="mb-4">
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Senha
             </label>
@@ -144,35 +159,47 @@ function Login() {
             </div>
           </div>
 
-          {/* Login Button */}
+          {/* Confirmar Senha */}
+          <div className="mb-6">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Confirmar Senha
+            </label>
+            <div className="relative">
+              <input
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-600 focus:outline-none transition pr-12 text-base"
+                placeholder="••••••"
+                type={showPass ? "text" : "password"}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                disabled={loading}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPass(!showPass)}
+                className="absolute right-4 top-3 text-gray-600 hover:text-purple-600 transition"
+                disabled={loading}
+              >
+                {showPass ? "👁️" : "👁️‍🗨️"}
+              </button>
+            </div>
+          </div>
+
+          {/* Signup Button */}
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-3 rounded-lg hover:shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed mb-4 text-base"
           >
-            {loading ? "Entrando..." : "Entrar"}
+            {loading ? "Criando conta..." : "Criar Conta"}
           </button>
 
-          {/* Quick Access */}
-          <div className="text-center text-sm text-gray-600">
-            <p className="mb-3">Ou continuar como convidado:</p>
-            <button
-              type="button"
-              onClick={() => navigate("/home")}
-              disabled={loading}
-              className="w-full border-2 border-purple-600 text-purple-600 font-semibold py-3 rounded-lg hover:bg-purple-50 transition disabled:opacity-50 disabled:cursor-not-allowed text-base"
-            >
-              Começar Agora 🚀
-            </button>
-          </div>
-
           {/* Footer */}
-          <div className="mt-6 text-center text-xs sm:text-sm text-gray-500">
-            <p>Não tem conta? <span 
+          <div className="text-center text-xs sm:text-sm text-gray-600">
+            <p>Já tem conta? <span 
               className="text-purple-600 font-semibold cursor-pointer hover:underline"
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/")}
             >
-              Criar conta
+              Fazer login
             </span></p>
           </div>
         </form>
@@ -181,4 +208,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;

@@ -10,7 +10,8 @@ function Home() {
   const { search } = useGame();
   const { isCollapsed } = useSidebar();
 
-  const marginClass = isCollapsed ? "ml-20" : "ml-64";
+  // Desktop margin, mobile no margin (bottom nav will be there)
+  const marginClass = isCollapsed ? "md:ml-20" : "md:ml-64";
 
   const courses = [
     { 
@@ -46,23 +47,24 @@ function Home() {
   };
 
   return (
-    <div className="flex bg-gray-50 min-h-screen">
+    <div className="flex flex-col md:flex-row bg-gray-50 min-h-screen">
       <Sidebar />
 
-      <div className={`flex-1 ${marginClass} transition-all duration-300`}>
+      <div className={`flex-1 ${marginClass} transition-all duration-300 flex flex-col`}>
         <Navbar />
 
-        <div className="p-8 space-y-6">
+        {/* Main Content - Adjusted for mobile bottom nav */}
+        <div className="flex-1 px-4 sm:px-8 py-6 sm:py-8 space-y-6 pb-20 md:pb-6 overflow-y-auto">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
               Recommended Courses
             </h2>
-            <p className="text-gray-600">
+            <p className="text-sm sm:text-base text-gray-600">
               Choose a course and start learning today!
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {filteredCourses.length > 0 ? (
               filteredCourses.map((course) => (
                 <CourseCard
