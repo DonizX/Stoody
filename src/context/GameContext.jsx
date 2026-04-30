@@ -166,7 +166,7 @@ export function GameProvider({ children }) {
       level: newLevel,
       xp_max: newXpMax,
     });
-  }, [xp, level, xpMax, userId, saveProfile]);
+  }, [xp, level, xpMax, saveProfile]);
 
   const addCoins = useCallback(async (amount) => {
     const newCoins = coins + amount;
@@ -179,7 +179,7 @@ export function GameProvider({ children }) {
     await saveProfile({
       coins: newCoins,
     });
-  }, [coins, userId, saveProfile]);
+  }, [coins, saveProfile]);
 
   const completeCourse = useCallback((courseId) => {
     setCompletedCourses((prev) => {
