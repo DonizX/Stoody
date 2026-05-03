@@ -15,7 +15,7 @@ function CourseCard({ title, description, xp, coins, onStart }) {
         </div>
         <div className="flex items-center gap-1 sm:gap-2">
           <span className="text-base sm:text-lg">💰</span>
-          <span className="font-semibold text-gray-900">{coins} Coins</span>
+          <span className="font-semibold text-gray-900">{coins} Moedas</span>
         </div>
       </div>
 
@@ -23,7 +23,7 @@ function CourseCard({ title, description, xp, coins, onStart }) {
         onClick={onStart}
         className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-2 sm:py-3 rounded-xl text-sm sm:text-base hover:shadow-lg active:scale-95 transition-all"
       >
-        Start
+        Começar
       </button>
     </div>
   );

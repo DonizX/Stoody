@@ -5,9 +5,9 @@ function Navbar() {
   const { level, xp, xpMax, coins, levelPulse, coinAnim, search, setSearch } = useGame();
 
   const courses = [
-    "Learn Japanese with Anime",
-    "English with Pokémon",
-    "Spanish Basics"
+    "Aprenda Japonês com Anime",
+    "Inglês com Pokémon",
+    "Espanhol Básico"
   ];
 
   const [suggestions, setSuggestions] = useState([]);
@@ -45,7 +45,7 @@ function Navbar() {
             <input
               value={search ?? ""}
               onChange={(e) => handleChange(e.target.value)}
-              placeholder="Search courses..."
+              placeholder="Buscar cursos..."
               className="border-2 border-gray-200 p-2 rounded-lg w-full focus:border-purple-600 focus:outline-none transition text-sm"
             />
 
@@ -70,7 +70,7 @@ function Navbar() {
             <div className={`flex items-center gap-2 px-3 py-2 bg-purple-50 rounded-lg whitespace-nowrap ${levelPulse ? "animate-pulse" : ""}`}>
               <span className="text-lg">⭐</span>
               <div>
-                <p className="text-xs text-gray-600">Level</p>
+                <p className="text-xs text-gray-600">Nível</p>
                 <p className="font-bold text-purple-600">{level}</p>
               </div>
             </div>
@@ -79,7 +79,7 @@ function Navbar() {
             <div className={`flex items-center gap-2 px-3 py-2 bg-yellow-50 rounded-lg whitespace-nowrap ${coinAnim ? "animate-pulse" : ""}`}>
               <span className="text-lg">💰</span>
               <div>
-                <p className="text-xs text-gray-600">Coins</p>
+                <p className="text-xs text-gray-600">Moedas</p>
                 <p className="font-bold text-yellow-600">{coins}</p>
               </div>
             </div>
@@ -89,7 +89,7 @@ function Navbar() {
         {/* XP Bar */}
         <div className="w-full">
           <div className="flex justify-between items-center mb-1">
-            <span className="text-xs font-semibold text-gray-600">XP Progress</span>
+            <span className="text-xs font-semibold text-gray-600">Progresso XP</span>
             <span className="text-xs font-semibold text-gray-600">{xp}/{xpMax}</span>
           </div>
           <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -109,7 +109,7 @@ function Navbar() {
           <div className={`flex items-center gap-1 px-2 py-1 bg-purple-50 rounded-lg flex-1 ${levelPulse ? "animate-pulse" : ""}`}>
             <span className="text-sm">⭐</span>
             <div className="min-w-0">
-              <p className="text-xs text-gray-600">Level</p>
+              <p className="text-xs text-gray-600">Nível</p>
               <p className="font-bold text-purple-600 text-sm">{level}</p>
             </div>
           </div>
@@ -118,7 +118,7 @@ function Navbar() {
           <div className={`flex items-center gap-1 px-2 py-1 bg-yellow-50 rounded-lg flex-1 ${coinAnim ? "animate-pulse" : ""}`}>
             <span className="text-sm">💰</span>
             <div className="min-w-0">
-              <p className="text-xs text-gray-600">Coins</p>
+              <p className="text-xs text-gray-600">Moedas</p>
               <p className="font-bold text-yellow-600 text-sm">{coins}</p>
             </div>
           </div>
@@ -129,7 +129,7 @@ function Navbar() {
           <input
             value={search ?? ""}
             onChange={(e) => handleChange(e.target.value)}
-            placeholder="Search courses..."
+            placeholder="Buscar cursos..."
             className="border-2 border-gray-200 p-2 rounded-lg w-full focus:border-purple-600 focus:outline-none transition text-sm"
           />
 

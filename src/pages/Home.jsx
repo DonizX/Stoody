@@ -16,24 +16,24 @@ function Home() {
   const courses = [
     { 
       id: "japanese-anime",
-      title: "Learn Japanese with Anime", 
+      title: "Aprenda Japonês com Anime", 
       xp: 150, 
       coins: 50,
-      description: "Master essential Japanese expressions from your favorite anime series!"
+      description: "Domine expressões essenciais de japonês das suas séries de anime favoritas!"
     },
     { 
       id: "english-pokemon",
-      title: "English with Pokémon", 
+      title: "Inglês com Pokémon", 
       xp: 120, 
       coins: 40,
-      description: "Learn English vocabulary through Pokémon battles and conversations."
+      description: "Aprenda vocabulário em inglês através de batalhas e conversas de Pokémon."
     },
     { 
       id: "spanish-basics",
-      title: "Spanish Basics", 
+      title: "Espanhol Básico", 
       xp: 100, 
       coins: 30,
-      description: "Get started with essential Spanish phrases and grammar."
+      description: "Comece com frases essenciais de espanhol e gramática."
     }
   ];
 
@@ -57,10 +57,10 @@ function Home() {
         <div className="flex-1 px-4 sm:px-8 py-6 sm:py-8 space-y-6 pb-20 md:pb-6 overflow-y-auto">
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-              Recommended Courses
+              Cursos Recomendados
             </h2>
             <p className="text-sm sm:text-base text-gray-600">
-              Choose a course and start learning today!
+              Escolha um curso e comece a aprender hoje!
             </p>
           </div>
 
@@ -79,7 +79,7 @@ function Home() {
             ) : (
               <div className="col-span-full text-center py-12">
                 <p className="text-gray-500 text-lg">
-                  No courses found matching your search.
+                  Nenhum curso encontrado que corresponda à sua busca.
                 </p>
               </div>
             )}

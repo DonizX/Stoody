@@ -47,37 +47,37 @@ function Sidebar() {
           <button
             onClick={() => navigate("/home")}
             className="text-left px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-purple-50 hover:text-purple-600 transition flex items-center gap-3 whitespace-nowrap"
-            title={isCollapsed ? "Courses" : ""}
+            title={isCollapsed ? "Cursos" : ""}
           >
             <span className="text-xl flex-shrink-0">📚</span>
-            {!isCollapsed && <span>Courses</span>}
+            {!isCollapsed && <span>Cursos</span>}
           </button>
 
           <button
             onClick={() => navigate("/shop")}
             className="text-left px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-purple-50 hover:text-purple-600 transition flex items-center gap-3 whitespace-nowrap"
-            title={isCollapsed ? "Shop" : ""}
+            title={isCollapsed ? "Loja" : ""}
           >
             <span className="text-xl flex-shrink-0">🛒</span>
-            {!isCollapsed && <span>Shop</span>}
+            {!isCollapsed && <span>Loja</span>}
           </button>
 
           <button
             onClick={() => navigate("/avatar/profile")}
             className="text-left px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-purple-50 hover:text-purple-600 transition flex items-center gap-3 whitespace-nowrap"
-            title={isCollapsed ? "Profile" : ""}
+            title={isCollapsed ? "Perfil" : ""}
           >
             <span className="text-xl flex-shrink-0">👤</span>
-            {!isCollapsed && <span>Profile</span>}
+            {!isCollapsed && <span>Perfil</span>}
           </button>
 
           <button
             onClick={() => navigate("/leaderboard")}
             className="text-left px-4 py-3 rounded-lg text-gray-700 font-medium hover:bg-purple-50 hover:text-purple-600 transition flex items-center gap-3 whitespace-nowrap"
-            title={isCollapsed ? "Leaderboard" : ""}
+            title={isCollapsed ? "Ranking" : ""}
           >
             <span className="text-xl flex-shrink-0">🏆</span>
-            {!isCollapsed && <span>Leaderboard</span>}
+            {!isCollapsed && <span>Ranking</span>}
           </button>
 
           <button
@@ -96,10 +96,10 @@ function Sidebar() {
         <button
           onClick={handleLogout}
           className="text-left px-4 py-3 rounded-lg text-red-600 font-medium hover:bg-red-50 transition flex items-center gap-3 whitespace-nowrap mx-2 mb-4"
-          title={isCollapsed ? "Logout" : ""}
+          title={isCollapsed ? "Sair" : ""}
         >
           <span className="text-xl flex-shrink-0">🚪</span>
-          {!isCollapsed && <span>Logout</span>}
+          {!isCollapsed && <span>Sair</span>}
         </button>
 
         {/* Toggle Button */}
@@ -119,37 +119,37 @@ function Sidebar() {
         <button
           onClick={() => navigate("/home")}
           className="flex flex-col items-center justify-center flex-1 h-full text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition py-2"
-          title="Home"
+          title="Início"
         >
           <span className="text-2xl">🏠</span>
-          <span className="text-xs mt-1">Home</span>
+          <span className="text-xs mt-1">Início</span>
         </button>
 
         <button
           onClick={() => navigate("/leaderboard")}
           className="flex flex-col items-center justify-center flex-1 h-full text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition py-2"
-          title="Leaderboard"
+          title="Ranking"
         >
           <span className="text-2xl">🏆</span>
-          <span className="text-xs mt-1">Leaderboard</span>
+          <span className="text-xs mt-1">Ranking</span>
         </button>
 
         <button
           onClick={() => navigate("/shop")}
           className="flex flex-col items-center justify-center flex-1 h-full text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition py-2"
-          title="Shop"
+          title="Loja"
         >
           <span className="text-2xl">🛒</span>
-          <span className="text-xs mt-1">Shop</span>
+          <span className="text-xs mt-1">Loja</span>
         </button>
 
         <button
           onClick={() => navigate("/avatar/profile")}
           className="flex flex-col items-center justify-center flex-1 h-full text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition py-2"
-          title="Profile"
+          title="Perfil"
         >
           <span className="text-2xl">👤</span>
-          <span className="text-xs mt-1">Profile</span>
+          <span className="text-xs mt-1">Perfil</span>
         </button>
 
         <button
@@ -164,7 +164,7 @@ function Sidebar() {
         <button
           onClick={handleLogout}
           className="flex flex-col items-center justify-center flex-1 h-full text-red-600 hover:text-red-700 hover:bg-red-50 transition py-2"
-          title="Logout"
+          title="Sair"
         >
           <span className="text-2xl">🚪</span>
           <span className="text-xs mt-1">Sair</span>

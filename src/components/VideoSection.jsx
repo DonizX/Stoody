@@ -6,11 +6,11 @@ export default function VideoSection({ videoUrl, title }) {
       {/* Título e descrição */}
       <div className="mb-6">
         <span className="inline-block px-3 py-1 text-xs font-semibold text-purple-600 bg-purple-100 rounded-full mb-3">
-          CURRENTLY STUDYING
+          ATUALMENTE ESTUDANDO
         </span>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">{title}</h1>
         <p className="text-gray-600 text-sm leading-relaxed">
-          Learn essential Japanese expressions used in anime conversations.
+          Aprenda expressões essenciais de japonês usadas em conversas de anime.
         </p>
       </div>
 
@@ -36,7 +36,7 @@ export default function VideoSection({ videoUrl, title }) {
                 >
                   <path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
                 </svg>
-                <p className="text-white text-sm opacity-75">Episódio: One Piece</p>
+                <p className="text-white text-sm opacity-75">Epísódio: One Piece</p>
               </div>
             </div>
           )}
@@ -55,8 +55,8 @@ export default function VideoSection({ videoUrl, title }) {
           </svg>
         </div>
         <div>
-          <p className="text-sm font-semibold text-gray-900">Dialogue Analysis</p>
-          <p className="text-xs text-gray-600">Luffy's declaration of freedom</p>
+          <p className="text-sm font-semibold text-gray-900">Análise de Diálogo</p>
+          <p className="text-xs text-gray-600">Video explicativo do curso</p>
         </div>
       </div>
     </div>

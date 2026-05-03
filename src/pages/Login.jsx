@@ -71,14 +71,14 @@ function Login() {
             onClick={() => navigate("/about")}
             className="border-2 border-purple-600 text-purple-600 px-3 sm:px-6 py-2 rounded-full font-semibold hover:bg-purple-50 transition text-sm sm:text-base"
           >
-            About Us
+            Sobre Nós
           </button>
 
           <button
             onClick={() => navigate("/signup")}
             className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 sm:px-6 py-2 rounded-full font-semibold hover:shadow-lg transition-all text-sm sm:text-base"
           >
-            Sign Up
+            Criar Conta
           </button>
         </div>
       </nav>
@@ -90,7 +90,7 @@ function Login() {
         >
           <div className="mb-8 text-center">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-              Welcome Back! 👋
+              Bem-vindo de Volta! 😋
             </h1>
             <p className="text-sm sm:text-base text-gray-600">
               Continue sua jornada de aprendizado

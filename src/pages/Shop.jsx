@@ -97,7 +97,7 @@ function Shop() {
 
         <main className="p-6 pb-24">
           <div className="bg-gradient-to-r from-purple-600 to-pink-500 rounded-3xl p-8 text-white shadow-xl mb-8">
-            <h1 className="text-4xl font-bold">Avatar Shop</h1>
+            <h1 className="text-4xl font-bold">Loja de Avatares</h1>
             <p className="mt-2 text-purple-100">
               Compre avatares para personalizar seu perfil.
             </p>

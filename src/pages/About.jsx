@@ -26,7 +26,7 @@ function About() {
             onClick={() => navigate("/signup")}
             className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 sm:px-6 py-2 rounded-full font-semibold hover:shadow-lg transition-all text-sm sm:text-base"
           >
-            Sign Up
+            Criar Conta
           </button>
         </div>
       </nav>

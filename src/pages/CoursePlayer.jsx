@@ -53,24 +53,24 @@ export default function CoursePlayer() {
   // Dados dos cursos
   const coursesData = {
     'japanese-anime': {
-      title: 'Japanese for Anime Fans',
-      description: 'Learn essential Japanese expressions used in anime conversations.',
+      title: 'Japonês para Fãs de Anime',
+      description: 'Aprenda expressões essenciais de japonês usadas em conversas de anime.',
       videoUrl: 'https://www.youtube.com/embed/YuoCJJuEcg4',
       totalXp: 100,
       totalCoins: 50,
       questions: [
         {
-          question: 'What does "Kaidoku" mean in the context of treasure maps?',
+          question: 'O que significa "Kaidoku" no contexto de mapas do tesouro?',
           options: ['Deciphering', 'Sailing', 'Treasure hunt', 'Map reading'],
           correctAnswer: 'Deciphering',
         },
         {
-          question: 'When Zoro says "Ore wa...", what is he about to define?',
+          question: 'Quando Zoro diz "Ore wa...", o que ele está prestes a definir?',
           options: ['His sword', 'Himself', 'His strength', 'His dream'],
           correctAnswer: 'Himself',
         },
         {
-          question: 'Translate: "Kaizoku ou ni ore wa naru!"',
+          question: 'Tradução: "Kaizoku ou ni ore wa naru!"',
           options: [
             'I will become the Pirate King!',
             'Eat meat with me!',
@@ -80,80 +80,80 @@ export default function CoursePlayer() {
           correctAnswer: 'I will become the Pirate King!',
         },
         {
-          question: 'Which phrase is used to express determination in anime?',
+          question: 'Qual frase é usada para expressar determinação em anime?',
           options: ['Sugoi', 'Ganbare', 'Yamete', 'Daijoubu'],
           correctAnswer: 'Ganbare',
         },
         {
-          question: 'What does "arigatou gozaimasu" mean?',
+          question: 'O que significa "arigatou gozaimasu"?',
           options: ['Hello', 'Goodbye', 'Thank you very much', 'Sorry'],
           correctAnswer: 'Thank you very much',
         },
       ],
     },
     'english-pokemon': {
-      title: 'Learn English with Pokémon',
-      description: 'Practice English vocabulary and grammar with Pokémon characters.',
+      title: 'Inglês com Pokémon',
+      description: 'Pratique vocabulário e gramática em inglês com personagens de Pokémon.',
       videoUrl: 'https://www.youtube.com/embed/4uO5zv084SA',
       totalXp: 80,
       totalCoins: 40,
       questions: [
         {
-          question: 'What is the English word for the process of a Pokémon changing form?',
+          question: 'Qual é a palavra em inglês para o processo de um Pokémon mudar de forma?',
           options: ['Transform', 'Evolve', 'Morph', 'Change'],
           correctAnswer: 'Evolve',
         },
         {
-          question: 'Which Pokémon is known as the "Electric Mouse"?',
+          question: 'Qual Pokémon é conhecido como o "Rato Elétrico"?',
           options: ['Charizard', 'Blastoise', 'Pikachu', 'Venusaur'],
           correctAnswer: 'Pikachu',
         },
         {
-          question: 'Complete the phrase: "Gotta ____ them all!"',
+          question: 'Complete a frase: "Gotta ____ them all!"',
           options: ['Catch', 'Find', 'Get', 'Hunt'],
           correctAnswer: 'Catch',
         },
         {
-          question: 'What type of Pokémon is Dragonite?',
+          question: 'Que tipo de Pokémon é Dragonite?',
           options: ['Water/Ice', 'Dragon/Flying', 'Fire/Dragon', 'Electric'],
           correctAnswer: 'Dragon/Flying',
         },
         {
-          question: 'Which region is the first Pokémon game set in?',
+          question: 'Em qual região o primeiro jogo de Pokémon se passa?',
           options: ['Johto', 'Hoenn', 'Kanto', 'Sinnoh'],
           correctAnswer: 'Kanto',
         },
       ],
     },
     'spanish-basics': {
-      title: 'Spanish Basics',
-      description: 'Master the fundamental Spanish phrases and pronunciation.',
+      title: 'Espanhol Básico',
+      description: 'Domine as frases essenciais de espanhol e a pronúncia.',
       videoUrl: 'https://www.youtube.com/embed/cYI8G02ELSo',
       totalXp: 60,
       totalCoins: 30,
       questions: [
         {
-          question: 'How do you say "Hello" in Spanish?',
+          question: 'Como você diz "Olá" em espanhol?',
           options: ['Adiós', 'Hola', 'Gracias', 'Por favor'],
           correctAnswer: 'Hola',
         },
         {
-          question: 'What does "Buenos días" mean?',
+          question: 'O que significa "Buenos días"?',
           options: ['Good night', 'Good morning', 'Good afternoon', 'Goodbye'],
           correctAnswer: 'Good morning',
         },
         {
-          question: 'How do you say "Thank you" in Spanish?',
+          question: 'Como você diz "Obrigado" em espanhol?',
           options: ['Disculpe', 'Gracias', 'De nada', 'Perdón'],
           correctAnswer: 'Gracias',
         },
         {
-          question: 'What is "Water" in Spanish?',
+          question: 'O que é "Água" em espanhol?',
           options: ['Agua', 'Jugo', 'Leche', 'Vino'],
           correctAnswer: 'Agua',
         },
         {
-          question: 'Complete: "Me llamo ____" means "My name is ____"',
+          question: 'Complete: "Me llamo ____" significa "Meu nome é ____"',
           options: ['Eres', 'Soy', 'Es', 'Any name'],
           correctAnswer: 'Any name',
         },
@@ -319,7 +319,7 @@ export default function CoursePlayer() {
           <div className="w-full bg-white flex flex-col">
             <VideoSection videoUrl={course.videoUrl} title={course.title} />
 
-            {/* Mensagem de conclusão */}
+              {/* Mensagem de conclusão */}
             <div className="px-4 py-6 max-w-4xl mx-auto w-full">
               <div className="p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl border-2 border-green-200">
                 <div className="flex items-start gap-4">

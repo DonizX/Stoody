@@ -83,7 +83,7 @@ export default function CompletionCard({
             <span className="text-2xl">🎖️</span>
             <div>
               <p className="text-xs font-semibold text-purple-900">INSÍGNIA DESBLOQUEADA</p>
-              <p className="text-sm font-bold text-purple-700">Aluno Dedicado Badge</p>
+              <p className="text-sm font-bold text-purple-700">Distintivo Aluno Dedicado</p>
             </div>
           </div>
         </div>
@@ -121,7 +121,7 @@ export default function CompletionCard({
 
         {/* Próxima lição */}
         <button 
-          className="w-full py-3 border-2 border-purple-600 text-purple-600 font-bold rounded-2xl hover:bg-purple-50 transition-all"
+          className="w-full py-3 border-2 border-purple-600 text-purple-600 font-bold rounded-2xl hover:bg-purple-50 transition-all mb-4"
         >
           Próxima Lição →
         </button>
