@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGame } from "../context/GameContext";
+import { sendWelcomeEmail } from "../lib/emailjs";
 import logo from "../assets/logo-stoody.png";
+
+function isValidEmail(email) {
+  const normalizedEmail = email.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  return emailRegex.test(normalizedEmail);
+}
 
 function Signup() {
   const navigate = useNavigate();
@@ -29,7 +37,9 @@ function Signup() {
       return;
     }
 
-    if (!email.includes("@")) {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (!isValidEmail(normalizedEmail)) {
       setError("Por favor, insira um email válido");
       return;
     }
@@ -46,9 +56,16 @@ function Signup() {
 
     setLoading(true);
 
-    const result = await signup(name.trim(), email.toLowerCase(), password);
+    const result = await signup(name.trim(), normalizedEmail, password);
 
     if (result.success) {
+      sendWelcomeEmail({
+        name: name.trim(),
+        email: normalizedEmail,
+      }).catch((err) => {
+        console.error("Erro ao enviar email de boas-vindas:", err);
+      });
+
       navigate("/home");
     } else {
       setError(result.error);
