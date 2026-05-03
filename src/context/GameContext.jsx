@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
+import { updateUserStreak } from "../services/streakService";
 
 const GameContext = createContext();
 
@@ -16,6 +17,7 @@ export function GameProvider({ children }) {
   const [xpMax, setXpMax] = useState(100);
   const [search, setSearch] = useState("");
   const [completedCourses, setCompletedCourses] = useState([]);
+  const [streakDays, setStreakDays] = useState(0);
 
   const [levelPulse, setLevelPulse] = useState(false);
   const [coinAnim, setCoinAnim] = useState(false);
@@ -44,6 +46,10 @@ export function GameProvider({ children }) {
       setCoins(data.coins || 0);
       setLevel(data.level || 1);
       setXpMax(data.xp_max || 100);
+      setStreakDays(data.streak_days || 0);
+
+      // Atualizar streak quando o usuário já está logado (retorno à aplicação)
+      await updateUserStreak(user.id);
     }
   }, []);
 
@@ -161,6 +167,8 @@ export function GameProvider({ children }) {
 
       if (data?.user) {
         await loadProfile(data.user);
+        // Atualizar streak após login bem-sucedido
+        await updateUserStreak(data.user.id);
       }
 
       return { success: true };
@@ -188,6 +196,7 @@ export function GameProvider({ children }) {
     setCoins(0);
     setCompletedCourses([]);
     setSearch("");
+    setStreakDays(0);
   }, []);
 
   const addXP = useCallback(async (amount) => {
@@ -256,6 +265,7 @@ export function GameProvider({ children }) {
     completedCourses,
     levelPulse,
     coinAnim,
+    streakDays,
     signup,
     login,
     addXP,

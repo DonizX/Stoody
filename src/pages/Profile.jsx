@@ -8,7 +8,7 @@ import { supabase } from "../lib/supabase";
 
 function Profile() {
   const { isCollapsed } = useSidebar();
-  const { userId, userName, userEmail, xp, xpMax, level, coins, completedCourses } = useGame();
+  const { userId, userName, userEmail, xp, xpMax, level, coins, completedCourses, streakDays } = useGame();
   const navigate = useNavigate();
 
   const [ownedAvatars, setOwnedAvatars] = useState([]);
@@ -25,7 +25,7 @@ function Profile() {
   const cursosIniciados = 3;
   const cursosConcluidos = completedCourses.length;
   const avataresComprados = ownedAvatars.filter((avatar) => !avatar.isInitial).length;
-  const diasConsecutivos = 7;
+  const diasConsecutivos = streakDays;
   const progressoXp = xpMax ? (xp / xpMax) * 100 : 0;
 
   useEffect(() => {
@@ -71,7 +71,8 @@ function Profile() {
 
       const { data: rankingData } = await supabase
         .from("profiles")
-        .select("id, xp")
+        .select("id, xp, level")
+        .order("level", { ascending: false })
         .order("xp", { ascending: false });
 
       if (rankingData) {

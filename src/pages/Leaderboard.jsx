@@ -19,11 +19,21 @@ function Leaderboard() {
   async function fetchLeaderboard() {
     setLoading(true);
 
-    const { data, error } = await supabase
+    let query = supabase
       .from("profiles")
-      .select("id, name, xp, coins, avatar_url")
-      .order(filter, { ascending: false })
-      .limit(20);
+      .select("id, name, xp, level, coins, avatar_url");
+
+    if (filter === "xp") {
+      // Ordenar por level DESC, depois xp DESC
+      query = query
+        .order("level", { ascending: false })
+        .order("xp", { ascending: false });
+    } else if (filter === "coins") {
+      // Manter ordenação apenas por coins DESC
+      query = query.order("coins", { ascending: false });
+    }
+
+    const { data, error } = await query.limit(20);
 
     if (error) {
       console.error("Erro ao buscar ranking:", error.message);
@@ -47,7 +57,7 @@ function Leaderboard() {
 
         <main className="p-6 pb-24">
           <div className="bg-gradient-to-r from-purple-600 to-pink-500 rounded-3xl p-8 text-white shadow-xl mb-8">
-            <h1 className="text-4xl font-bold">Leaderboard</h1>
+            <h1 className="text-4xl font-bold">Ranking</h1>
             <p className="mt-2 text-purple-100">
               Veja os melhores estudantes no ranking global.
             </p>
@@ -127,7 +137,7 @@ function Leaderboard() {
                       </h2>
 
                       <p className="text-gray-500">
-                        {player.xp || 0} XP • 🪙 {player.coins || 0} moedas
+                        Level {player.level || 1} • {player.xp || 0} XP • 🪙 {player.coins || 0} moedas
                       </p>
                     </div>
 
