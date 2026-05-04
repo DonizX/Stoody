@@ -1,70 +1,157 @@
-# Getting Started with Create React App
+﻿# Stoody
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Visão geral do projeto
 
-## Available Scripts
+Stoody é uma plataforma web de aprendizado gamificada construída em React. A aplicação oferece inscrição, autenticação e acompanhamento de progresso para estudantes que desejam transformar estudo em hábito com elementos de gamificação.
 
-In the project directory, you can run:
+O projeto resolve o problema de falta de engajamento em plataformas de aprendizagem online, combinando recursos de progresso contínuo, pontuação por experiência, streaks de uso e suporte direto via email.
 
-### `npm start`
+O propósito da plataforma é oferecer uma experiência de estudo mais motivadora e estruturada para usuários que buscam organizar o aprendizado por meio de cursos, rewards e feedback de uso.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Usuários-alvo:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Estudantes e aprendizes digitais
+- Usuários que desejam acompanhar progresso e rendimento
+- Pessoas que valorizam gamificação e métricas de engajamento
+- Equipes de educação que usam um MVP frontend com backend gerenciado
 
-### `npm test`
+## Funcionalidades do sistema
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Autenticação e cadastro
 
-### `npm run build`
+- Cadastro de novos usuários com nome, email e senha
+- Login de usuários existentes
+- Fluxo de autenticação integrado a Supabase
+- Validação básica de email e senha no frontend
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Gamificação
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Sistema de XP para representar progresso dentro da aplicação
+- Níveis e `coins` como elementos de recompensa
+- Indicação de progresso visual com barras e indicadores
+- Streak de uso para rastrear sequência de acessos ou ações consecutivas
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Envio de email automático
 
-### `npm run eject`
+- Envio de email de boas-vindas ao cadastrar um novo usuário
+- Envio de email de suporte a partir do formulário de contato
+- Integração com EmailJS para disparo de templates configurados
+- Uso de templates específicos para contato e boas-vindas
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Página de contato
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Formulário de contato com título e mensagem
+- Envio direto ao canal de suporte configurado em EmailJS
+- Feedback de envio bem-sucedido ou de erro ao usuário
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Perfil do usuário
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Página de perfil com informações do usuário
+- Exibição de progresso e dados de usuário autenticado
+- Possibilidade de acessar histórico e métricas de aprendizado
 
-## Learn More
+### Cursos e progresso
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Navegação para páginas de cursos e aula individual
+- Página de curso que demonstra a estrutura de aprendizado
+- Integração com dados armazenados em Supabase para persistência
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Estado global e persistência
 
-### Code Splitting
+- Uso de Context API para gerenciamento de estado global
+- Contextos dedicados para jogo e sidebar
+- Persistência de dados de usuário e progresso com Supabase
+- Estados reativos compartilhados entre páginas e componentes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Arquitetura do projeto
 
-### Analyzing the Bundle Size
+### Stack principal
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- React 19 como base da aplicação frontend
+- Create React App com `react-scripts` para build e desenvolvimento
+- Tailwind CSS para estilização utilitária e responsiva
+- React Router DOM para navegação entre rotas
 
-### Making a Progressive Web App
+### Backend e serviços externos
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Supabase utilizado para autenticação (`auth`) e persistência de dados
+- EmailJS utilizado para enviar emails de boas-vindas e suporte
+- `.env` para guardar IDs de serviço EmailJS e possíveis chaves do Supabase
 
-### Advanced Configuration
+### Gerenciamento de estado
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Context API nativa do React para estados globais
+- `GameContext` para dados de usuário, XP, coins e autenticação
+- `SidebarContext` para controle de colapso da navegação lateral
 
-### Deployment
+### Estrutura de componentes e páginas
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- `src/pages/` contém as páginas principais: `Home`, `Login`, `Signup`, `About`, `CoursePlayer`, `Shop`, `Profile`, `Leaderboard`, `Contact`
+- `src/components/` concentra elementos reutilizáveis como `Navbar`, `Sidebar`, `CourseCard`, `QuestionCard`, `Quiz`, `VideoSection` e `CompletionCard`
+- `src/lib/` guarda integrações externas como `emailjs.js`
+- `src/context/` mantém logicamente os providers de estado
+- `src/services/` hospeda utilitários como `streakService.js`
 
-### `npm run build` fails to minify
+## Segurança e variáveis de ambiente
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- O projeto depende de variáveis sensíveis armazenadas em `.env`
+- Variáveis EmailJS estão definidas como `REACT_APP_EMAILJS_SERVICE_ID`, `REACT_APP_EMAILJS_PUBLIC_KEY`, `REACT_APP_EMAILJS_WELCOME_TEMPLATE_ID` e `REACT_APP_EMAILJS_CONTACT_TEMPLATE_ID`
+- Em produção, essas variáveis devem ser configuradas na plataforma de deploy (Vercel) sem inclusão no repositório
+- A exposição de chaves em código-fonte público compromete segurança e confiabilidade do serviço
+
+## Deploy
+
+- O projeto está pronto para deploy em Vercel com build padrão de Create React App
+- Deploy automático pode ser configurado via GitHub
+- Variáveis de ambiente em Vercel devem ser configuradas exatamente como no `.env`
+- O comando de build principal é `npm run build`
+
+## UI/UX
+
+- Interface moderna construída com Tailwind CSS
+- Layout responsivo e adaptado para desktop e mobile
+- Design focado em simplicidade e clareza de leitura
+- Experiência gamificada com elementos visuais de progresso, níveis e coins
+- Navegação consistente com sidebar e barra superior
+
+## Conclusão técnica
+
+Stoody é um projeto bem estruturado para um MVP de plataforma educacional gamificada. Ele combina tecnologias modernas de frontend com serviços externos gerenciados, oferecendo uma base sólida para prototipagem e validação de produto.
+
+A arquitetura é coerente para o escopo atual: React no frontend, Supabase para backend e EmailJS para comunicação. A aplicação demonstra foco em UX e engajamento, com um conjunto de funcionalidades que suporta cadastro, autenticação, envio de email e acompanhamento de progresso.
+
+## 🔎 Feedback técnico do projeto
+
+### Organização do código
+
+A organização é funcional e segue uma separação razoável entre páginas, componentes, contextos e integrações. O uso de, pelo menos, duas camadas de contexto mostra preocupação com o gerenciamento de estado global.
+
+### Estrutura de pastas
+
+A estrutura de pastas é direta e adequada para um projeto de tamanho médio. As pastas `pages`, `components`, `context`, `lib` e `services` refletem responsabilidades claras.
+
+### Qualidade da arquitetura
+
+A arquitetura apresenta uma solução híbrida de frontend leve com backend gerenciado. A escolha por Supabase e EmailJS reduz o trabalho de infraestrutura, o que é apropriado para produtos em fase inicial.
+
+### Escalabilidade
+
+O projeto está posicionado para crescer de forma incremental. A base React + Context API funciona bem para o estado atual, mas a evolução para um gerenciamento de estado mais robusto pode ser necessária com aumento de complexidade.
+
+### Boas práticas aplicadas
+
+- Uso de variáveis de ambiente para serviços externos
+- Separação de responsabilidades por pasta
+- Utilização de Context API para estado global
+- Dependências modernas e compatíveis com o ecossistema React
+
+### Possíveis melhorias futuras
+
+- Refinar a organização dos serviços e integrações em camadas mais explícitas
+- Ampliar testes automatizados além do ambiente padrão do CRA
+- Introduzir logs e tratamento de erros mais centralizados
+- Considerar modularizar ainda mais componentes e dados de curso
+
+### Nível de maturidade
+
+O projeto se posiciona entre o nível intermediário e profissional. Ele demonstra entendimento de práticas de desenvolvimento web e uso de serviços SaaS, mas ainda mantém a simplicidade de um MVP. Para um nível totalmente SaaS-ready, depende de evolução em testes, observabilidade e organização de backend/aplicações.
