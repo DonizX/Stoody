@@ -1,9 +1,23 @@
 import emailjs from "@emailjs/browser";
 
-export const EMAILJS_SERVICE_ID = "service_495lwzh";
-export const EMAILJS_PUBLIC_KEY = "aWaqjDLnfg-2ENw50";
-export const EMAILJS_WELCOME_TEMPLATE_ID = "template_auhxdl2";
-export const EMAILJS_CONTACT_TEMPLATE_ID = "template_n7r4wv4";
+const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+const EMAILJS_WELCOME_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_WELCOME_TEMPLATE_ID;
+const EMAILJS_CONTACT_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_CONTACT_TEMPLATE_ID;
+
+function ensureEnv(name, value) {
+  if (!value) {
+    throw new Error(`EmailJS env var ${name} is required`);
+  }
+  return value;
+}
+
+ensureEnv("REACT_APP_EMAILJS_SERVICE_ID", EMAILJS_SERVICE_ID);
+ensureEnv("REACT_APP_EMAILJS_PUBLIC_KEY", EMAILJS_PUBLIC_KEY);
+ensureEnv("REACT_APP_EMAILJS_WELCOME_TEMPLATE_ID", EMAILJS_WELCOME_TEMPLATE_ID);
+ensureEnv("REACT_APP_EMAILJS_CONTACT_TEMPLATE_ID", EMAILJS_CONTACT_TEMPLATE_ID);
+
+emailjs.init(EMAILJS_PUBLIC_KEY);
 
 export function sendEmail(templateId, params) {
   return emailjs.send(
@@ -16,11 +30,7 @@ export function sendEmail(templateId, params) {
 
 export function sendWelcomeEmail({ name, email }) {
   return sendEmail(EMAILJS_WELCOME_TEMPLATE_ID, {
-    name,
-    user_name: name,
     to_name: name,
-    email,
-    user_email: email,
     to_email: email,
   });
 }
@@ -28,13 +38,8 @@ export function sendWelcomeEmail({ name, email }) {
 export function sendContactEmail({ name, email, title, message }) {
   return sendEmail(EMAILJS_CONTACT_TEMPLATE_ID, {
     name,
-    user_name: name,
-    from_name: name,
     email,
-    user_email: email,
-    from_email: email,
     title,
-    subject: title,
     message,
   });
 }

@@ -59,18 +59,21 @@ function Signup() {
     const result = await signup(name.trim(), normalizedEmail, password);
 
     if (result.success) {
-      sendWelcomeEmail({
-        name: name.trim(),
-        email: normalizedEmail,
-      }).catch((err) => {
+      try {
+        await sendWelcomeEmail({
+          name: name.trim(),
+          email: normalizedEmail,
+        });
+      } catch (err) {
         console.error("Erro ao enviar email de boas-vindas:", err);
-      });
+      }
 
+      setLoading(false);
       navigate("/home");
-    } else {
-      setError(result.error);
+      return;
     }
 
+    setError(result.error);
     setLoading(false);
   }
 

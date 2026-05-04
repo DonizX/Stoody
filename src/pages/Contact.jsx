@@ -37,7 +37,7 @@ function Contact() {
     try {
       await sendContactEmail({
         name: userName || "Usuário Stoody",
-        email: userEmail,
+        email: userEmail || "",
         title: title.trim(),
         message: message.trim(),
       });
