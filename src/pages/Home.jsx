@@ -17,21 +17,21 @@ function Home() {
     { 
       id: "japanese-anime",
       title: "Aprenda Japonês com Anime", 
-      xp: 150, 
+      xp: 100, 
       coins: 50,
       description: "Domine expressões essenciais de japonês das suas séries de anime favoritas!"
     },
     { 
       id: "english-pokemon",
       title: "Inglês com Pokémon", 
-      xp: 120, 
+      xp: 80, 
       coins: 40,
       description: "Aprenda vocabulário em inglês através de batalhas e conversas de Pokémon."
     },
     { 
       id: "spanish-basics",
       title: "Espanhol Básico", 
-      xp: 100, 
+      xp: 60, 
       coins: 30,
       description: "Comece com frases essenciais de espanhol e gramática."
     }
