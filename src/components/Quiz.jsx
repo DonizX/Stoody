@@ -37,6 +37,7 @@ export default function Quiz({
   onFinish,
   xpPerQuestion = 20,
   coinsPerQuestion = 10,
+  alreadyCompleted = false,
 }) {
   // Estados principais
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -83,10 +84,6 @@ export default function Quiz({
       return answer === correctIndex;
     }).length;
   }, [userAnswers, questions, getCorrectAnswerIndex]);
-  const alreadyCompleted = useMemo(() => {
-    if (!courseId) return false;
-    return localStorage.getItem(`quizCompleted_${courseId}`) === "true";
-  }, [courseId]);
 
   // Função para selecionar resposta (sem confirmar ainda)
   const handleSelectAnswer = useCallback((answerIndex) => {
@@ -122,18 +119,13 @@ export default function Quiz({
     if (isLastQuestion) {
       // Finaliza quiz
       setQuizMode("final");
-      
-      // Marca como completo no localStorage (se não estava)
-      if (courseId && !alreadyCompleted) {
-        localStorage.setItem(`quizCompleted_${courseId}`, "true");
-      }
     } else {
       // Vai para próxima pergunta
       setCurrentQuestionIndex((prev) => prev + 1);
       setSelectedAnswer(null);
       setQuizMode("selecting");
     }
-  }, [isLastQuestion, courseId, alreadyCompleted]);
+  }, [isLastQuestion]);
 
   // Função para finalizar e integrar com GameContext
   const handleFinishQuiz = useCallback(() => {

@@ -7,7 +7,7 @@ import CourseCard from "../components/CourseCard.jsx";
 
 function Home() {
   const navigate = useNavigate();
-  const { search } = useGame();
+  const { search, startCourse } = useGame();
   const { isCollapsed } = useSidebar();
 
   // Desktop margin, mobile no margin (bottom nav will be there)
@@ -42,7 +42,8 @@ function Home() {
     course.title.toLowerCase().includes(query)
   );
 
-  const handleStartCourse = (courseId) => {
+  const handleStartCourse = async (courseId) => {
+    await startCourse(courseId);
     navigate(`/course/${courseId}`);
   };
 

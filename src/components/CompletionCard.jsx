@@ -3,9 +3,13 @@ import React from 'react';
 export default function CompletionCard({
   xpEarned,
   coinsEarned,
+  correctAnswers = 0,
+  totalQuestions = 0,
+  accuracy = 0,
   onComplete,
   onReview,
 }) {
+  const earnedBadge = accuracy >= 80;
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center px-4 py-8 bg-gradient-to-br from-purple-50 via-pink-50 to-purple-50">
       {/* Animated celebration background */}
@@ -78,29 +82,27 @@ export default function CompletionCard({
         </div>
 
         {/* Badge Unlock */}
-        <div className="p-4 bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl mb-8 border border-purple-200 animate-pulse">
-          <div className="flex items-center justify-center gap-3">
-            <span className="text-2xl">🎖️</span>
-            <div>
-              <p className="text-xs font-semibold text-purple-900">INSÍGNIA DESBLOQUEADA</p>
-              <p className="text-sm font-bold text-purple-700">Distintivo Aluno Dedicado</p>
+        {earnedBadge && (
+          <div className="p-4 bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl mb-8 border border-purple-200 animate-pulse">
+            <div className="flex items-center justify-center gap-3">
+              <span className="text-2xl">🎖️</span>
+              <div>
+                <p className="text-xs font-semibold text-purple-900">INSÍGNIA DESBLOQUEADA</p>
+                <p className="text-sm font-bold text-purple-700">Distintivo Aluno Dedicado</p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Stats Summary */}
-        <div className="grid grid-cols-3 gap-3 mb-8">
+        <div className="grid grid-cols-2 gap-3 mb-8">
           <div className="p-3 bg-white rounded-2xl text-center shadow-md">
-            <p className="text-2xl font-bold text-gray-900">5</p>
+            <p className="text-2xl font-bold text-gray-900">{correctAnswers}/{totalQuestions}</p>
             <p className="text-xs text-gray-600 font-semibold">Questões</p>
           </div>
           <div className="p-3 bg-white rounded-2xl text-center shadow-md">
-            <p className="text-2xl font-bold text-green-600">100%</p>
+            <p className="text-2xl font-bold text-green-600">{accuracy}%</p>
             <p className="text-xs text-gray-600 font-semibold">Taxa</p>
-          </div>
-          <div className="p-3 bg-white rounded-2xl text-center shadow-md">
-            <p className="text-2xl font-bold text-purple-600">+1</p>
-            <p className="text-xs text-gray-600 font-semibold">Streak</p>
           </div>
         </div>
 

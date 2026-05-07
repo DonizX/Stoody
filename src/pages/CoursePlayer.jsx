@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useGame } from '../context/GameContext';
 import { useSidebar } from '../context/SidebarContext';
@@ -45,7 +45,14 @@ function buildFallbackReviewAnswers(questions) {
 export default function CoursePlayer() {
   const { courseId } = useParams();
   const navigate = useNavigate();
-  const { userId, addXP, addCoins, isCourseCompleted, completeCourse } = useGame();
+  const {
+    userId,
+    addXP,
+    addCoins,
+    isCourseCompleted,
+    completeCourse,
+    startCourse,
+  } = useGame();
   const { isCollapsed } = useSidebar();
 
   const marginClass = isCollapsed ? "md:ml-20" : "md:ml-64";
@@ -168,10 +175,14 @@ export default function CoursePlayer() {
   const [finished, setFinished] = useState(false);
   const [xpEarned, setXpEarned] = useState(0);
   const [coinsEarned, setCoinsEarned] = useState(0);
+  const [correctAnswersEarned, setCorrectAnswersEarned] = useState(0);
+  const [totalQuestionsAnswered, setTotalQuestionsAnswered] = useState(0);
+  const [accuracyEarned, setAccuracyEarned] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(() => isCourseCompleted(courseId));
   const [loading, setLoading] = useState(true);
   const [latestAttempt, setLatestAttempt] = useState(null);
   const [reviewMode, setReviewMode] = useState(false);
+  const rewardAppliedRef = useRef(false);
 
   useEffect(() => {
     setLoading(false);
@@ -198,12 +209,11 @@ export default function CoursePlayer() {
       if (data) {
         setLatestAttempt(data);
         setQuizCompleted(true);
-        completeCourse(courseId);
       }
     }
 
     loadLatestAttempt();
-  }, [userId, courseId, completeCourse]);
+  }, [userId, courseId]);
 
   if (!course) {
     return (
@@ -238,6 +248,8 @@ export default function CoursePlayer() {
 
   // Handler para iniciar o quiz
   const handleStartQuiz = () => {
+    rewardAppliedRef.current = false;
+    startCourse(courseId);
     setStarted(true);
   };
 
@@ -252,11 +264,17 @@ export default function CoursePlayer() {
   }) => {
     setXpEarned(totalXp);
     setCoinsEarned(totalCoins);
+    setCorrectAnswersEarned(correctAnswers);
+    setTotalQuestionsAnswered(totalQuestions);
+    setAccuracyEarned(accuracy);
     setFinished(true);
 
-    // Adicionar recompensas ao contexto
-    addXP(totalXp);
-    addCoins(totalCoins);
+    // Adicionar recompensas ao contexto uma única vez
+    if (!quizCompleted && !rewardAppliedRef.current) {
+      rewardAppliedRef.current = true;
+      await addXP(totalXp);
+      await addCoins(totalCoins);
+    }
 
     // Marcar como completado
     completeCourse(courseId);
@@ -311,6 +329,11 @@ export default function CoursePlayer() {
 
   // Estado 1: Quiz já foi completado - mostrar vídeo + mensagem
   if (quizCompleted && !started) {
+    const earnedXp =
+      latestAttempt?.xp_earned ?? 0;
+    const earnedCoins =
+      latestAttempt?.coins_earned ?? 0;
+
     return (
       <div className="flex flex-col md:flex-row bg-gray-50 min-h-screen">
         <Sidebar />
@@ -331,11 +354,11 @@ export default function CoursePlayer() {
                     </p>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="bg-white rounded-lg p-3 text-center">
-                        <p className="text-2xl font-bold text-purple-600">{course.totalXp}</p>
+                        <p className="text-2xl font-bold text-purple-600">{earnedXp}</p>
                         <p className="text-xs text-gray-600">XP Ganho</p>
                       </div>
                       <div className="bg-white rounded-lg p-3 text-center">
-                        <p className="text-2xl font-bold text-yellow-600">{course.totalCoins}</p>
+                        <p className="text-2xl font-bold text-yellow-600">{earnedCoins}</p>
                         <p className="text-xs text-gray-600">Moedas</p>
                       </div>
                     </div>
@@ -385,6 +408,7 @@ export default function CoursePlayer() {
               onFinish={handleFinishQuiz}
               xpPerQuestion={xpPerQuestion}
               coinsPerQuestion={coinsPerQuestion}
+              alreadyCompleted={quizCompleted}
             />
           </div>
         </div>
@@ -403,6 +427,9 @@ export default function CoursePlayer() {
             <CompletionCard
               xpEarned={xpEarned}
               coinsEarned={coinsEarned}
+              correctAnswers={correctAnswersEarned}
+              totalQuestions={totalQuestionsAnswered}
+              accuracy={accuracyEarned}
               onComplete={handleCompleteLesson}
               onReview={() => setReviewMode(true)}
             />

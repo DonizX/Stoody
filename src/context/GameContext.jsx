@@ -4,6 +4,34 @@ import { updateUserStreak } from "../services/streakService";
 
 const GameContext = createContext();
 
+function normalizeCourseList(value) {
+  if (Array.isArray(value)) return value.filter(Boolean);
+
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) return [];
+
+    // Formato Postgres array string: {"a","b"} ou {a,b}
+    if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+      const inner = trimmed.slice(1, -1).trim();
+      if (!inner) return [];
+
+      return inner
+        .split(",")
+        .map((item) => item.replace(/^"(.*)"$/, "$1").trim())
+        .filter(Boolean);
+    }
+
+    // Fallback: CSV simples
+    return trimmed
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
 export function GameProvider({ children }) {
   const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -17,6 +45,7 @@ export function GameProvider({ children }) {
   const [xpMax, setXpMax] = useState(100);
   const [search, setSearch] = useState("");
   const [completedCourses, setCompletedCourses] = useState([]);
+  const [startedCourses, setStartedCourses] = useState([]);
   const [streakDays, setStreakDays] = useState(0);
 
   const [levelPulse, setLevelPulse] = useState(false);
@@ -47,9 +76,42 @@ export function GameProvider({ children }) {
       setLevel(data.level || 1);
       setXpMax(data.xp_max || 100);
       setStreakDays(data.streak_days || 0);
+      setCompletedCourses(
+        normalizeCourseList(data.completed_courses)
+      );
+      setStartedCourses(
+        normalizeCourseList(data.started_courses)
+      );
 
       // Atualizar streak quando o usuário já está logado (retorno à aplicação)
       await updateUserStreak(user.id);
+    }
+
+    const { data: progressData, error: progressError } = await supabase
+      .from("user_course_progress")
+      .select("course_id, started_at, completed_at")
+      .eq("user_id", user.id);
+
+    if (progressError) {
+      console.error("Erro ao carregar progresso por curso:", progressError.message);
+      return;
+    }
+
+    if (progressData) {
+      const startedFromProgress = [
+        ...new Set(progressData.map((item) => item.course_id).filter(Boolean)),
+      ];
+      const completedFromProgress = [
+        ...new Set(
+          progressData
+            .filter((item) => Boolean(item.completed_at))
+            .map((item) => item.course_id)
+            .filter(Boolean)
+        ),
+      ];
+
+      setStartedCourses(startedFromProgress);
+      setCompletedCourses(completedFromProgress);
     }
   }, []);
 
@@ -83,6 +145,7 @@ export function GameProvider({ children }) {
         setLevel(1);
         setXpMax(100);
         setCompletedCourses([]);
+        setStartedCourses([]);
       }
     });
 
@@ -195,6 +258,7 @@ export function GameProvider({ children }) {
     setXpMax(100);
     setCoins(0);
     setCompletedCourses([]);
+    setStartedCourses([]);
     setSearch("");
     setStreakDays(0);
   }, []);
@@ -237,18 +301,86 @@ export function GameProvider({ children }) {
     });
   }, [coins, saveProfile]);
 
-  const completeCourse = useCallback((courseId) => {
-    setCompletedCourses((prev) => {
-      if (!prev.includes(courseId)) {
-        return [...prev, courseId];
-      }
-      return prev;
+  const startCourse = useCallback(async (courseId) => {
+    if (!userId || !courseId) return;
+
+    const startedAt = new Date().toISOString();
+
+    const { error } = await supabase
+      .from("user_course_progress")
+      .upsert(
+        {
+          user_id: userId,
+          course_id: courseId,
+          started_at: startedAt,
+        },
+        {
+          onConflict: "user_id,course_id",
+          ignoreDuplicates: false,
+        }
+      );
+
+    if (error) {
+      console.error("Erro ao iniciar curso:", error.message);
+      return;
+    }
+
+    setStartedCourses((prev) => {
+      if (prev.includes(courseId)) return prev;
+      const updated = [...prev, courseId];
+      saveProfile({ started_courses: updated });
+      return updated;
     });
-  }, []);
+  }, [userId, saveProfile]);
+
+  const completeCourse = useCallback(async (courseId) => {
+    if (!userId || !courseId) return;
+
+    const nowIso = new Date().toISOString();
+
+    const { error } = await supabase
+      .from("user_course_progress")
+      .upsert(
+        {
+          user_id: userId,
+          course_id: courseId,
+          started_at: nowIso,
+          completed_at: nowIso,
+          status: "completed",
+        },
+        {
+          onConflict: "user_id,course_id",
+          ignoreDuplicates: false,
+        }
+      );
+
+    if (error) {
+      console.error("Erro ao concluir curso:", error.message);
+      return;
+    }
+
+    setStartedCourses((prev) => {
+      if (prev.includes(courseId)) return prev;
+      const updated = [...prev, courseId];
+      saveProfile({ started_courses: updated });
+      return updated;
+    });
+
+    setCompletedCourses((prev) => {
+      if (prev.includes(courseId)) return prev;
+      const updated = [...prev, courseId];
+      saveProfile({ completed_courses: updated });
+      return updated;
+    });
+  }, [userId, saveProfile]);
 
   const isCourseCompleted = useCallback((courseId) => {
     return completedCourses.includes(courseId);
   }, [completedCourses]);
+
+  const isCourseStarted = useCallback((courseId) => {
+    return startedCourses.includes(courseId);
+  }, [startedCourses]);
 
   const value = {
     isAuthLoading,
@@ -263,6 +395,7 @@ export function GameProvider({ children }) {
     search,
     setSearch,
     completedCourses,
+    startedCourses,
     levelPulse,
     coinAnim,
     streakDays,
@@ -270,7 +403,9 @@ export function GameProvider({ children }) {
     login,
     addXP,
     addCoins,
+    startCourse,
     completeCourse,
+    isCourseStarted,
     isCourseCompleted,
     resetProgress,
   };
